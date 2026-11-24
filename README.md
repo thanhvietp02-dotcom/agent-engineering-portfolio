@@ -2,14 +2,15 @@
 
 **从模型怎么调用工具，到业务流程怎么暂停、恢复和交付。**
 
-四个项目覆盖 Agent 运行时、LangGraph 工作流、MCP 共享服务和实时语音 RAG。每个案例都沿着一次真实的业务动作解释系统的模块边界、数据流和设计取舍。
+五个项目覆盖 Agent 运行时、LangGraph 工作流、MCP 共享服务、实时语音 RAG 与自媒体 Skill。每个案例都沿着一次真实的业务动作解释系统的模块边界、数据流和设计取舍。
 
-| 项目 | 看点 |
-| --- | --- |
-| [AI 商品客服 Agent](#ai-商品客服-agent) | 模型选工具、工具结果回填、人工补答回流 |
-| [LangGraph 内容运营助手](#langgraph-内容运营助手) | 人工选题、审稿退回、检查点恢复 |
-| [MCP 多项目共享服务](#mcp-多项目共享服务) | 双应用复用工具，网关统一认证、路由和配额 |
-| [实时语音 RAG 客服](#实时语音-rag-客服) | React 通话、RTC 语音链路、独立 RAG 回调 |
+| 项目 | 看点 | 公开源码 |
+| --- | --- | --- |
+| [AI 商品客服 Agent](#ai-商品客服-agent) | 模型选工具、工具结果回填、人工补答回流 | [GitHub](https://github.com/thanhvietp02-dotcom/agent-loop-customer-service-source) |
+| [LangGraph 内容运营助手](#langgraph-内容运营助手) | 人工选题、审稿退回、检查点恢复 | [GitHub](https://github.com/thanhvietp02-dotcom/langgraph-content-operations-source) |
+| [MCP 多项目共享服务](#mcp-多项目共享服务) | 双应用复用工具，网关统一认证、路由和配额 | [GitHub](https://github.com/thanhvietp02-dotcom/mcp-shared-agent-services-source) |
+| [实时语音 RAG 客服](#实时语音-rag-客服) | React 通话、RTC 语音链路、独立 RAG 回调 | [GitHub](https://github.com/thanhvietp02-dotcom/realtime-voice-rag-source) |
+| [自媒体内容大脑 Skill](#自媒体内容大脑-skill) | 对标数据、选题判断、脚本与发布复盘 | [GitHub](https://github.com/thanhvietp02-dotcom/creator-brain) |
 
 ## AI 商品客服 Agent
 
@@ -51,6 +52,18 @@
 - **答案怎么生成**。RAG 服务取最新一条消息检索知识内容，将结果与会话消息一起交给 LLM。生成结果通过 SSE 返回，再经 TTS 合成语音。
 - **怎么定位问题**。检索与模型生成分开实现，可用文本调试接口分别检查召回内容和生成结果。完整通话依赖 RTC、ASR、TTS、模型和知识库服务配置。
 
+## 自媒体内容大脑 Skill
+
+创作者每次写稿前，都需要重新判断选题有没有数据支持。creator-brain 把对标账号、选题、脚本、发布表现和复盘规则放进本地 Markdown 知识库，让 Claude Code、Codex 或 WorkBuddy 在下一次任务里可以继续使用这些材料。
+
+![自媒体内容大脑的选题、内容生产、发布和复盘闭环](assets/creator-brain-loop.svg)
+
+- **选题依据**。记录对标账号及作品数据，用作品相对该账号日常表现的倍数识别异常表现，再找跨账号反复出现的选题类型。
+- **从写稿到复盘**。基于账号定位与选题卡生成脚本，发布前检查表达与平台风险，发布后记录第 3 天和第 7 天的数据。复盘总结出的规律可存入方法论，供下一轮读取。
+- **关键取舍**。资料保存在普通 Markdown 文件夹，创作者可查看和修改；跨会话复用依靠磁盘上的知识库。
+
+[查看 creator-brain 源码、安装步骤和示例](https://github.com/thanhvietp02-dotcom/creator-brain)
+
 ---
 
-本页用于技术面试交流，展示项目架构与实现。前三项基于课程示例，实时语音项目基于火山引擎 AIGC-RTC Demo。源码在私有仓库，可在技术面按需提供。
+本页用于技术面试交流，展示项目架构与实现。前三项基于课程示例，实时语音项目基于火山引擎 AIGC-RTC Demo。五个项目的公开源码链接见上方列表。
